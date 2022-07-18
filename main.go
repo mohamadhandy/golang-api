@@ -19,13 +19,7 @@ func main() {
 	}
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
-	// userInput := user.RegisterUserInput{}
-	// userInput.Name = "service 5"
-	// userInput.Email = "service5@gmail.com"
-	// userInput.Occupation = "Admin test"
-	// userInput.Password = "password"
 
-	// userService.RegisterUser(userInput)
 	fmt.Println("userRepository", &userRepository)
 	fmt.Println("userService", &userService)
 
@@ -34,6 +28,7 @@ func main() {
 
 	api := router.Group("/api/v1")
 	api.POST("/users", userHandler.RegisterUser)
+	api.POST("/sessions", userHandler.Login)
 	router.Run()
 
 	// buat layering
