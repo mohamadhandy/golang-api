@@ -10,6 +10,7 @@ import (
 type Service interface {
 	RegisterUser(input RegisterUserInput) (User, error)
 	Login(input LoginInput) (User, error)
+	IsEmailAvailable(input CheckEmailInput) (bool, error)
 }
 
 // hanya di package user saja boleh panggil service service ini.
@@ -62,3 +63,18 @@ func (s *service) Login(input LoginInput) (User, error) {
 
 // mapping struct input ke struct User
 // simpan struct User melalui repository
+
+/*
+Service check email availability
+*/
+func (s *service) IsEmailAvailable(input CheckEmailInput) (bool, error) {
+	email := input.Email
+	user, err := s.repository.FindByEmail(email)
+	if err != nil {
+		return false, err
+	}
+	if user.Id == 0 {
+		return true, nil
+	}
+	return false, nil
+}
