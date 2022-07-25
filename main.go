@@ -17,11 +17,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	fmt.Println("db", &db)
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 
-	fmt.Println("userRepository", &userRepository)
-	fmt.Println("userService", &userService)
+	// fmt.Println("userRepository", &userRepository)
+	// fmt.Println("userService", &userService)
 
 	userHandler := handler.NewUserHandler(userService)
 	router := gin.Default()
@@ -30,6 +31,7 @@ func main() {
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
+	api.POST("/avatars", userHandler.UploadAvatar)
 	router.Run()
 
 	// buat layering
