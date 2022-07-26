@@ -23,6 +23,16 @@ func main() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 
+	token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1fQ.8cfLZ-lWx-zb7bP-dgSh03OoI4dafd3eHpXxVYEglNo")
+	if err != nil {
+		fmt.Println("ERROR!!!")
+	}
+	if token.Valid {
+		fmt.Println("VALID TOKEN!!!")
+	} else {
+		fmt.Println("INVALID TOKEN!!!")
+	}
+
 	// authService.GenerateToken(1001)
 
 	// fmt.Println("userRepository", &userRepository)
