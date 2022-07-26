@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"golang-api/auth"
 	"golang-api/handler"
 	"golang-api/user"
 	"log"
@@ -20,11 +21,14 @@ func main() {
 	fmt.Println("db", &db)
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+	authService := auth.NewService()
+
+	// authService.GenerateToken(1001)
 
 	// fmt.Println("userRepository", &userRepository)
 	// fmt.Println("userService", &userService)
 
-	userHandler := handler.NewUserHandler(userService)
+	userHandler := handler.NewUserHandler(userService, authService)
 	router := gin.Default()
 
 	api := router.Group("/api/v1")
