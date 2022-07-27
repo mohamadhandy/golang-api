@@ -12,6 +12,7 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmailAvailable(input CheckEmailInput) (bool, error)
 	SaveAvatar(id int, fileLocation string) (User, error)
+	GetUserByID(id int) (User, error)
 }
 
 // hanya di package user saja boleh panggil service service ini.
@@ -94,4 +95,15 @@ func (s *service) SaveAvatar(id int, fileLocation string) (User, error) {
 		return updatedUser, err
 	}
 	return updatedUser, nil
+}
+
+func (s *service) GetUserByID(id int) (User, error) {
+	user, err := s.repository.FindById(id)
+	if err != nil {
+		return user, err
+	}
+	if user.Id == 0 {
+		return user, errors.New("no user found on that email")
+	}
+	return user, nil
 }
